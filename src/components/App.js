@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import Bar from './Bar/Bar';
-import Donut from './Donut/Donut';
-import Line from './Line/Line';
+import Bar from './Charts/Bar/Bar';
+import Donut from './Charts/Donut/Donut';
+import Sales from './Sales/Sales';
 
 import './App.scss';
 
@@ -17,10 +17,10 @@ class App extends Component {
     getData = async () => {
         try {
             let [sales, product, customers, vendor] = await Promise.all([
-                fetch("sales.json"),
-                fetch("product.json"),
-                fetch("customers.json"),
-                fetch("vendor.json"),
+                fetch("data/sales.json"),
+                fetch("data/product.json"),
+                fetch("data/customers.json"),
+                fetch("data/vendor.json"),
             ]);
             this.setState({
                 sales: await sales.json(),
@@ -41,7 +41,7 @@ class App extends Component {
     render() {
         let bar = null;
         let donut = null;
-        let line = null;
+        let sales = null;
 
         if (this.state.customers) {
             var barData = {
@@ -70,46 +70,6 @@ class App extends Component {
                 total: this.state.product.length
             }
 
-            const monthlySales = {};
-            const monthlySalesByCategory = {
-                books: 0,
-                cinema: 0,
-                diy: 0,
-                home: 0,
-                leisure: 0,
-                electronics: 0,
-                kids: 0,
-                food: 0,
-                sports: 0,
-                jewelry: 0,
-                vouchers: 0, 
-                supermarket: 0,
-                pharmacy: 0,
-                fashion: 0
-            };
-
-            for (let item of this.state.sales) {
-                var test = item.id;
-                if (isNaN(monthlySales[item.sold.split('/')[0]])) {
-                    monthlySales[item.sold.split('/')[0]] = 0;
-                    monthlySales[item.sold.split('/')[0]]++;
-                } else {
-                    monthlySales[item.sold.split('/')[0]]++;
-
-                }
-            }
-
-            var lineData = {
-                totalSales: this.state.sales.length,
-                totalRevenue: this.state.sales.reduce((acc, curValue) => (
-                    acc + Number(curValue.price)
-                ), 0),
-                dates: this.state.sales.map(item => item.sold.split(' ')[0]),
-                prices: this.state.sales.map(item => item.price),
-                monthlySales,
-                salesByCategory: donutData.categories
-            }
-
             for (let item of this.state.customers) {
                 if (item.gender === '0') {
                     barData.unknown++;
@@ -132,18 +92,12 @@ class App extends Component {
 
             bar = <Bar data={barData} name="amount" />
             donut = <Donut data={donutData} />
-            line = <Line data={lineData} isMonth />
-
-
-            console.log(monthlySales)
-            console.log(monthlySalesByCategory)
-            console.log(test)
-            
+            sales = <Sales data={this.state.sales} categories={donutData} />
         } 
         
         return (
-            <div className="App">
-                {line}
+            <div className="app">
+                {sales}
                 {bar}
                 {donut}
             </div>

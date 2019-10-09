@@ -1,0 +1,21 @@
+.info-box {
+    min-width: 15%;
+    height: 20%;
+    padding: 20px;
+    box-shadow: 0 2px 3px rgba(black, 0.1);
+    text-align: center;
+    background: white;
+
+    &__title {
+        color: rgb(102, 101, 101);
+        margin-bottom: 15px;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: capitalize;
+    }
+
+    &__value {
+        font-size: 30px;
+
+    }
+}
