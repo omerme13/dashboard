@@ -1,10 +1,12 @@
 .info-box {
-    min-width: 15%;
-    height: 20%;
     padding: 20px;
     box-shadow: 0 2px 3px rgba(black, 0.1);
     text-align: center;
     background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
     &__title {
         color: rgb(102, 101, 101);

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import Chart from "react-apexcharts";
 
+import './SalesChart.scss';
+
 class SalesChart extends Component {
     state = {
         options: {
@@ -17,8 +19,12 @@ class SalesChart extends Component {
                 curve: "smooth"
             },
             title: {
-                text: "Last quarter monthly sales",
-                align: "center"
+                text: "Quarter / monthly sales",
+                align: "center",
+                style: {
+                    fontSize: 30,
+                    fontFamily: 'Lato'
+                }
             },
             grid: {
                 row: {
@@ -27,13 +33,13 @@ class SalesChart extends Component {
                 }
             },
             xaxis: {
-                categories: Object.keys(this.props.data.monthlySales),
+                categories: Object.keys(this.props.data),
                 type: 'datetime'
             }
         },
         series: [
-            { name: "Products sold", data: Object.values(this.props.data.monthlySales), type: "line" }
-        ]
+            { name: "Products sold", data: Object.values(this.props.data), type: "line" }
+        ],
     };
 
     componentDidUpdate(prevProps) {
@@ -54,7 +60,6 @@ class SalesChart extends Component {
     }
 
     render() {
-        console.log("filteredData", this.props.filteredData)
         return (
             <div className="sales-chart">
                 <Chart
