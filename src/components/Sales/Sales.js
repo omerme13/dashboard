@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import SalesChart from '../Charts/SalesChart/SalesChart';
+import SalesLine from '../Charts/SalesLine/SalesLine';
 import InfoBox from '../InfoBox/InfoBox';
 import InfoBoxContainer from '../InfoBox/InfoBoxContainer';
 import Button from '../Button/Button';
@@ -9,36 +9,33 @@ import './Sales.scss';
 
 class Sales extends Component {
     state = {
-        currentData: "",
+        salesPerDay: "",
+        salesData: [],
         monthNum: 0
     };
 
-    filter = (monthNumber) => {
-        if (!monthNumber) {
-            const sales = {}
-            for (let item of this.props.data) {
-                if (isNaN(sales[item.sold.substring(0,5)])) {
-                    sales[item.sold.substring(0,5)] = 0;
-                    sales[item.sold.substring(0,5)]++;
-                } else {
-                    sales[item.sold.substring(0,5)]++;
-                }
-            }
-            this.setState({currentData: sales})
-            return;
-        }
-        const monthToFilter = this.props.data.filter(item => item.sold.substring(0,2) === monthNumber);
-        const monthToFilterSales = {};
+    componentDidMount() {
+        this.setState({salesData: this.props.data});
+        this.handleButtonHandler(0);
+    }
 
-        for (let item of monthToFilter) {
-            if (isNaN(monthToFilterSales[item.sold.substring(0,5)])) {
-                monthToFilterSales[item.sold.substring(0,5)] = 0;
-                monthToFilterSales[item.sold.substring(0,5)]++;
+    filter = (monthNumber) => {
+        const salesData = monthNumber === 0 
+            ? this.props.data 
+            : this.props.data.filter(item => item.sold.substring(0,2) === monthNumber);
+
+        const salesPerDay = {};
+
+        for (let item of salesData) {
+            if (isNaN(salesPerDay[item.sold.substring(0,5)])) {
+                salesPerDay[item.sold.substring(0,5)] = 0;
+                salesPerDay[item.sold.substring(0,5)]++;
             } else {
-                monthToFilterSales[item.sold.substring(0,5)]++;
+                salesPerDay[item.sold.substring(0,5)]++;
             }
         }
-        this.setState({currentData: monthToFilterSales})
+
+        this.setState({salesPerDay, salesData})
     }
 
     handleButtonHandler = (num) => {
@@ -58,48 +55,44 @@ class Sales extends Component {
             }
         }
 
-        let data;
-        if (this.state.currentData === "") {
-            data = this.props.data;
-        } else {
-            if (!this.state.monthNum) {
-                data = this.props.data;
-            } else {
-                data = this.props.data.filter(item => item.sold.substring(0,2) === this.state.monthNum);
-            }
-        }
+        const {salesData, salesPerDay} = this.state;
 
-        const totalSales = data.length;
-        const totalRevenue = Object.values(data).reduce((acc, curValue) => (
+        const totalSales = salesData.length;
+        const totalRevenue = Object.values(salesData).reduce((acc, curValue) => (
             acc + Number(curValue.price)
         ), 0);
-        const prices = data.map(item => item.price);
-        const avgRevenue = this.state.currentData === "" 
-            ? (totalRevenue / Object.keys(monthlySales).length).toFixed(0)
-            : (totalRevenue / Object.keys(this.state.currentData).length).toFixed(0);
 
-        const avgSales = this.state.currentData === "" 
-            ? (totalSales / Object.keys(monthlySales).length).toFixed(0)
-            : (totalSales / Object.keys(this.state.currentData).length).toFixed(0);    
+        const avgRevenue = (totalRevenue / Object.keys(salesPerDay).length).toFixed(0);
+        const avgSales = (totalSales / Object.keys(salesPerDay).length).toFixed(0);    
             
-        
+        const productCount = {};
+        for (let item of salesData) {
+            if (isNaN(productCount[item.product_id])) {
+                productCount[item.product_id] = 0;
+                productCount[item.product_id]++;
+            } else {
+                productCount[item.product_id]++;
+
+            }
+        }
+            console.log(this.state)
+
         return (
             <section className="sales">
                 <Button name="Jan" clicked={() => this.handleButtonHandler("01")} active={this.state.monthNum == "01"} />
                 <Button name="Feb" clicked={() => this.handleButtonHandler("02")} active={this.state.monthNum == "02"} />
                 <Button name="Mar" clicked={() => this.handleButtonHandler("03")} active={this.state.monthNum == "03"} />
                 <Button name="Quarter" clicked={() => {this.handleButtonHandler(0)}} active={!this.state.monthNum} />
-         
                 <InfoBoxContainer>
                     <InfoBox value={totalRevenue} title="total revenue" />
                     <InfoBox value={totalSales} title="total products sold" />
-                    <InfoBox value={avgRevenue} title="average revenue for a day" />
-                    <InfoBox value={avgSales} title="average products sold for a day" />
+                    <InfoBox value={avgRevenue} title="average revenue per day" />
+                    <InfoBox value={avgSales} title="average products sold per day" />
                 </InfoBoxContainer>
+         
 
-                <SalesChart 
-                    data={monthlySales} 
-                    filteredData={this.state.currentData}
+                <SalesLine 
+                    data={this.state.salesPerDay} 
                     monthNumber={this.state.monthNum}
                 />
             </section>

@@ -50,7 +50,7 @@ class App extends Component {
                 unknown: 0
             } 
 
-            var donutData = {
+            var categoryCount = {
                 categories: {
                     books: 0,
                     cinema: 0,
@@ -80,20 +80,38 @@ class App extends Component {
 
             for (let item of this.state.product) {
                 if (item.product_category1) {
-                    donutData.categories[item.product_category1.toLowerCase()]++;
+                    categoryCount.categories[item.product_category1.toLowerCase()]++;
                 }
                 if (item.product_category2) {
-                    donutData.categories[item.product_category2.toLowerCase()]++;
+                    categoryCount.categories[item.product_category2.toLowerCase()]++;
                 }
                 if (item.product_category3) {
-                    donutData.categories[item.product_category3.toLowerCase()]++;
+                    categoryCount.categories[item.product_category3.toLowerCase()]++;
                 }
             }
 
+            // const productCount = {};
+            // for (let item of this.state.sales) {
+            //     if (isNaN(productCount[item.product_id])) {
+            //         productCount[item.product_id] = 0;
+            //         productCount[item.product_id]++;
+            //     } else {
+            //         productCount[item.product_id]++;
+    
+            //     }
+            // }
+
             bar = <Bar data={barData} name="amount" />
-            donut = <Donut data={donutData} />
-            sales = <Sales data={this.state.sales} categories={donutData} />
+            donut = <Donut data={categoryCount} />
+            sales = (
+                <Sales 
+                    data={this.state.sales} 
+                    categories={categoryCount} 
+                    // products={productCount} 
+                />
+            ) 
         } 
+
         
         return (
             <div className="app">

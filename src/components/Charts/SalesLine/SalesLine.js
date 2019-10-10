@@ -2,9 +2,9 @@ import React, { Component } from "react";
 
 import Chart from "react-apexcharts";
 
-import './SalesChart.scss';
+import './SalesLine.scss';
 
-class SalesChart extends Component {
+class SalesLine extends Component {
     state = {
         options: {
             chart: {
@@ -46,13 +46,13 @@ class SalesChart extends Component {
         if (prevProps.data !== this.props.data) {
             this.setState({
                 series: [
-                    { name: "Products sold", data: Object.values(this.props.filteredData), type: "line" }                    
+                    { name: "Products sold", data: Object.values(this.props.data), type: "line" }                    
                 ],
                 options: {
                     ...this.state.options,
                     xaxis: {
                         ...this.state.xaxis,
-                        categories:  Object.keys(this.props.filteredData)
+                        categories:  Object.keys(this.props.data)
                     } 
                 } 
             })
@@ -74,4 +74,4 @@ class SalesChart extends Component {
     }
 }
 
-export default SalesChart;
+export default SalesLine;
