@@ -19,7 +19,7 @@ class SalesLine extends Component {
                 curve: "smooth"
             },
             title: {
-                text: "Quarter / monthly sales",
+                text: "2016 quarter / monthly sales",
                 align: "center",
                 style: {
                     fontSize: 30,

@@ -90,29 +90,18 @@ class App extends Component {
                 }
             }
 
-            // const productCount = {};
-            // for (let item of this.state.sales) {
-            //     if (isNaN(productCount[item.product_id])) {
-            //         productCount[item.product_id] = 0;
-            //         productCount[item.product_id]++;
-            //     } else {
-            //         productCount[item.product_id]++;
-    
-            //     }
-            // }
-
             bar = <Bar data={barData} name="amount" />
             donut = <Donut data={categoryCount} />
             sales = (
                 <Sales 
                     data={this.state.sales} 
                     categories={categoryCount} 
-                    // products={productCount} 
+                    product={this.state.product}
                 />
             ) 
         } 
+        // console.log(this.state)
 
-        
         return (
             <div className="app">
                 {sales}
