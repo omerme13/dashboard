@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import Bar from './Charts/Bar/Bar';
-import Donut from './Charts/Donut/Donut';
 import Sales from './Sales/Sales';
 
 import './App.scss';
@@ -39,16 +37,9 @@ class App extends Component {
     }
 
     render() {
-        let bar = null;
-        let donut = null;
         let sales = null;
 
         if (this.state.customers) {
-            var barData = {
-                male: 0,
-                female: 0,
-                unknown: 0
-            } 
 
             var categoryCount = {
                 categories: {
@@ -70,43 +61,19 @@ class App extends Component {
                 total: this.state.product.length
             }
 
-            for (let item of this.state.customers) {
-                if (item.gender === '0') {
-                    barData.unknown++;
-                } else {
-                    barData[item.gender]++;
-                }    
-            }
-
-            for (let item of this.state.product) {
-                if (item.product_category1) {
-                    categoryCount.categories[item.product_category1.toLowerCase()]++;
-                }
-                if (item.product_category2) {
-                    categoryCount.categories[item.product_category2.toLowerCase()]++;
-                }
-                if (item.product_category3) {
-                    categoryCount.categories[item.product_category3.toLowerCase()]++;
-                }
-            }
-
-            bar = <Bar data={barData} name="amount" />
-            donut = <Donut data={categoryCount} />
             sales = (
                 <Sales 
                     data={this.state.sales} 
                     categories={categoryCount} 
                     product={this.state.product}
+                    vendor={this.state.vendor}
                 />
             ) 
         } 
-        // console.log(this.state)
 
         return (
             <div className="app">
                 {sales}
-                {bar}
-                {donut}
             </div>
         );
     }

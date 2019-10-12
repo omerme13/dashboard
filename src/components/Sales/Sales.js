@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 
 import SalesLine from '../Charts/SalesLine/SalesLine';
-import SalesDonut from '../Charts/SalesDonut/SalesDonut';
 import InfoBox from '../InfoBox/InfoBox';
 import InfoBoxContainer from '../InfoBox/InfoBoxContainer';
 import Button from '../Button/Button';
+import Product from './Product';
+import Vendor from './Vendor';
+
 
 import './Sales.scss';
 
@@ -17,7 +19,8 @@ class Sales extends Component {
 
     componentDidMount() {
         this.setState({salesData: this.props.data});
-        this.handleButtonHandler(0);
+        this.buttonHandler(0);
+        window.addEventListener('scroll', this.listenToScroll);
     }
 
     filter = (monthNumber) => {
@@ -37,9 +40,19 @@ class Sales extends Component {
         this.setState({salesPerDay, salesData})
     }
 
-    handleButtonHandler = (num) => {
+    buttonHandler = (num) => {
         this.filter(num); 
         this.setState({monthNum: num})
+    }
+
+    listenToScroll = () => {
+        const buttonsPosition = this.inputElement.offsetTop;
+
+        if (window.pageYOffset > buttonsPosition) {
+            this.inputElement.classList.add("sales__btn-container-fixed");
+        } else /*if (window.pageYOffset < buttonsPosition - 100)*/{
+            this.inputElement.classList.remove("sales__btn-container-fixed");
+        }
     }
 
     render() {
@@ -62,56 +75,14 @@ class Sales extends Component {
         const avgRevenue = (totalRevenue / Object.keys(salesPerDay).length).toFixed(0);
         const avgSales = (totalSales / Object.keys(salesPerDay).length).toFixed(0);    
          
-        const productCount = {total: 0};
-        for (let item of salesData) {
-            if (isNaN(productCount[item.product_id])) {
-                productCount[item.product_id] = 0;
-            } 
-            productCount[item.product_id]++;
-            productCount.total++;
-        }
-
-        var categoryCount = {}
-
-        for (let item of this.props.product) {
-            let productQuantity = productCount[item.product_id];
-
-            // if the product id is invalid it will make the productQuantity undefined and it will break all the data(adding undefined to a number make it undefined). so we need to eliminate the problematic data.
-            if (productQuantity === undefined) {
-                productQuantity = 0;
-            }
-            
-            if (item.product_category1) {
-                if(isNaN(categoryCount[item.product_category1.toLowerCase()])) {
-                    categoryCount[item.product_category1.toLowerCase()] = 0;
-                }
-                categoryCount[item.product_category1.toLowerCase()] += productQuantity;
-            }
-            if (item.product_category2) {
-                if(isNaN(categoryCount[item.product_category2.toLowerCase()])) {
-                    categoryCount[item.product_category2.toLowerCase()] = 0;
-                }
-                categoryCount[item.product_category2.toLowerCase()] += productQuantity;
-            }
-            if (item.product_category3) {
-                if(isNaN(categoryCount[item.product_category3.toLowerCase()])) {
-                    categoryCount[item.product_category3.toLowerCase()] = 0;
-                }
-                categoryCount[item.product_category3.toLowerCase()] += productQuantity;
-            }
-        }
-        
-        let donut = null;
-        if (this.state.salesPerDay) {  // if the state has been updated assign the component to the variable. 
-            donut = <SalesDonut categoryCount={categoryCount} />; 
-        }
-        
         return (
             <section className="sales">
-                <Button name="Jan" clicked={() => this.handleButtonHandler("01")} active={this.state.monthNum == "01"} />
-                <Button name="Feb" clicked={() => this.handleButtonHandler("02")} active={this.state.monthNum == "02"} />
-                <Button name="Mar" clicked={() => this.handleButtonHandler("03")} active={this.state.monthNum == "03"} />
-                <Button name="Quarter" clicked={() => {this.handleButtonHandler(0)}} active={!this.state.monthNum} />
+                <div className="sales__btn-container" ref={inputEl => this.inputElement = inputEl}>
+                    <Button name="Jan" clicked={() => this.buttonHandler("01")} active={this.state.monthNum == "01"} />
+                    <Button name="Feb" clicked={() => this.buttonHandler("02")} active={this.state.monthNum == "02"} />
+                    <Button name="Mar" clicked={() => this.buttonHandler("03")} active={this.state.monthNum == "03"} />
+                    <Button name="Quarter" clicked={() => {this.buttonHandler(0)}} active={!this.state.monthNum} />
+                </div>
 
                 <InfoBoxContainer>
                     <InfoBox value={totalRevenue} title="total revenue" />
@@ -119,12 +90,20 @@ class Sales extends Component {
                     <InfoBox value={avgRevenue} title="average revenue per day" />
                     <InfoBox value={avgSales} title="average products sold per day" />
                 </InfoBoxContainer>
-         
+
                 <SalesLine 
                     data={this.state.salesPerDay} 
                     monthNumber={this.state.monthNum}
                 />
-                {donut}
+
+                <Product 
+                    salesData={salesData} 
+                    productData={this.props.product} 
+                />
+                <Vendor 
+                    salesData={salesData}
+                    vendorData={this.props.vendor} 
+                />
             </section>
         );
     }
