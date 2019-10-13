@@ -1,6 +1,10 @@
 .sales {
     &__btn-container {
+        border-bottom: 1px solid lightgrey;
+        padding-bottom: 20px;
+
         &-fixed {
+            border-bottom: none;
             position: fixed;
             padding: 20px 100px;
             top: 0;

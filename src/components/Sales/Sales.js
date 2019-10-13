@@ -6,6 +6,8 @@ import InfoBoxContainer from '../InfoBox/InfoBoxContainer';
 import Button from '../Button/Button';
 import Product from './Product';
 import Vendor from './Vendor';
+import Customers from './Customers';
+import {countObjectKeys} from '../../shared';
 
 
 import './Sales.scss';
@@ -31,12 +33,8 @@ class Sales extends Component {
         const salesPerDay = {};
 
         for (let item of salesData) {
-            if (isNaN(salesPerDay[item.sold.substring(0,5)])) {
-                salesPerDay[item.sold.substring(0,5)] = 0;
-            } 
-            salesPerDay[item.sold.substring(0,5)]++;
+            countObjectKeys(salesPerDay, item.sold.substring(0,5), 1);
         }
-
         this.setState({salesPerDay, salesData})
     }
 
@@ -48,7 +46,7 @@ class Sales extends Component {
     listenToScroll = () => {
         const buttonsPosition = this.inputElement.offsetTop;
 
-        if (window.pageYOffset > buttonsPosition) {
+        if (window.pageYOffset > buttonsPosition + 80) {
             this.inputElement.classList.add("sales__btn-container-fixed");
         } else /*if (window.pageYOffset < buttonsPosition - 100)*/{
             this.inputElement.classList.remove("sales__btn-container-fixed");
@@ -56,31 +54,21 @@ class Sales extends Component {
     }
 
     render() {
-        const monthlySales = {};
-
-        for (let item of this.props.data) {
-            if (isNaN(monthlySales[item.sold.substring(0,5)])) {
-                monthlySales[item.sold.substring(0,5)] = 0;
-            } 
-            monthlySales[item.sold.substring(0,5)]++;
-        }
-
         const {salesData, salesPerDay} = this.state;
 
         const totalSales = salesData.length;
         const totalRevenue = Object.values(salesData).reduce((acc, curValue) => (
             acc + Number(curValue.price)
         ), 0);
-
         const avgRevenue = (totalRevenue / Object.keys(salesPerDay).length).toFixed(0);
         const avgSales = (totalSales / Object.keys(salesPerDay).length).toFixed(0);    
          
         return (
             <section className="sales">
                 <div className="sales__btn-container" ref={inputEl => this.inputElement = inputEl}>
-                    <Button name="Jan" clicked={() => this.buttonHandler("01")} active={this.state.monthNum == "01"} />
-                    <Button name="Feb" clicked={() => this.buttonHandler("02")} active={this.state.monthNum == "02"} />
-                    <Button name="Mar" clicked={() => this.buttonHandler("03")} active={this.state.monthNum == "03"} />
+                    <Button name="Jan" clicked={() => this.buttonHandler("01")} active={this.state.monthNum === "01"} />
+                    <Button name="Feb" clicked={() => this.buttonHandler("02")} active={this.state.monthNum === "02"} />
+                    <Button name="Mar" clicked={() => this.buttonHandler("03")} active={this.state.monthNum === "03"} />
                     <Button name="Quarter" clicked={() => {this.buttonHandler(0)}} active={!this.state.monthNum} />
                 </div>
 
@@ -103,6 +91,10 @@ class Sales extends Component {
                 <Vendor 
                     salesData={salesData}
                     vendorData={this.props.vendor} 
+                />
+                <Customers 
+                    salesData={salesData}
+                    customersData={this.props.customers} 
                 />
             </section>
         );

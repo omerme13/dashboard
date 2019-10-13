@@ -3,13 +3,11 @@ import Chart from 'react-apexcharts';
 
 import {barSettings} from '../settings';
 
-import './VendorBar.scss';
-
-class VendorBar extends Component {
+class ProductBar extends Component {
     state = {}
 
     static getDerivedStateFromProps(props) {
-        return { ...barSettings(props.data, true) }
+        return { ...barSettings(props.data, false) }
     }    
 
     render() {
@@ -27,4 +25,4 @@ class VendorBar extends Component {
     }
 }
 
-export default VendorBar;
+export default ProductBar;

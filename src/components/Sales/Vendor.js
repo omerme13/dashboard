@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Bar from '../Charts/VendorBar/VendorBar';
+import {countObjectKeys} from '../../shared';
 
 const vendor = props => {
     const vendorLocation = {};
@@ -11,10 +12,7 @@ const vendor = props => {
     }
 
     for (let item of props.salesData) {
-        if (isNaN(locationCount[vendorLocation[item.vendor]])) {
-            locationCount[vendorLocation[item.vendor]] = 0;
-        }
-        locationCount[vendorLocation[item.vendor]]++;
+        countObjectKeys(locationCount, vendorLocation[item.vendor], 1);
     }
 
     let bar = null;

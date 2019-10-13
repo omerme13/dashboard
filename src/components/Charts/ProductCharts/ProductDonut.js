@@ -2,11 +2,12 @@ import React, { Component } from "react";
 
 import Chart from "react-apexcharts";
 
-import './SalesDonut.scss';
+import {donutSettings} from '../settings';
 
-const colorSet = ['#F66D44', '#FEAE65', '#E6F69D', '#AADEA7', '#64C2A6', '#2D87BB', '#7982B9', '#A5C1DC'];
+import './ProductDonut.scss';
 
-class SalesDonut extends Component {
+
+class ProductDonut extends Component {
     state = {};
 
     static getDerivedStateFromProps(props) {
@@ -25,31 +26,13 @@ class SalesDonut extends Component {
             }
         }        
 
-        return {
-            categoryCount: data,
-            series: Object.values(data),
-            options: {
-                colors: colorSet,
-                labels: Object.keys(data),
-                dataLabels: {
-                    style: {
-                        fontSize: '15px',
-                        fontFamily: 'var(--font-main)',
-                        fontWeight: '400',
-                        colors: ['var(--color-text)']
-                    },
-                    dropShadow: {
-                        enabled: false,
-                    }
-                  }
-            }
-        }
+        return { ...donutSettings(data) }
     }
 
     render() {
         
         return (
-            <div className="sales-donut">
+            <div className="product-donut">
                 <h2 className="heading-2">products sold by categories</h2>
                 <Chart
                     options={this.state.options}
@@ -63,4 +46,4 @@ class SalesDonut extends Component {
     }
 }
 
-export default SalesDonut;
+export default ProductDonut;

@@ -40,41 +40,18 @@ class App extends Component {
         let sales = null;
 
         if (this.state.customers) {
-
-            var categoryCount = {
-                categories: {
-                    books: 0,
-                    cinema: 0,
-                    diy: 0,
-                    home: 0,
-                    leisure: 0,
-                    electronics: 0,
-                    kids: 0,
-                    food: 0,
-                    sports: 0,
-                    jewelry: 0,
-                    vouchers: 0, 
-                    supermarket: 0,
-                    pharmacy: 0,
-                    fashion: 0
-                },
-                total: this.state.product.length
-            }
-
             sales = (
                 <Sales 
                     data={this.state.sales} 
-                    categories={categoryCount} 
                     product={this.state.product}
                     vendor={this.state.vendor}
+                    customers={this.state.customers}
                 />
             ) 
         } 
 
         return (
-            <div className="app">
-                {sales}
-            </div>
+            <div className="app">{sales}</div>
         );
     }
 }
