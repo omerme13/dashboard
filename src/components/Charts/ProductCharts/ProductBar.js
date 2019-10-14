@@ -7,7 +7,7 @@ class ProductBar extends Component {
     state = {}
 
     static getDerivedStateFromProps(props) {
-        return { ...barSettings(props.data, false) }
+        return { ...barSettings(props.data, false, "Sold from this category") }
     }    
 
     render() {

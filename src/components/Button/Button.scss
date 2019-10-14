@@ -10,7 +10,9 @@
     transition: 0.3s;
     cursor: pointer;
 
-    &:hover {
+    &:hover,
+    &-active {
         background: var(--color-primary-light);
+        color: whitesmoke;
     }
 }

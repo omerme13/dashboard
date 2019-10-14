@@ -19,7 +19,7 @@ export const donutSettings = data => ({
     }
 });
 
-export const barSettings = (data, isHorizontal) => ({
+export const barSettings = (data, isHorizontal, seriesDescription) => ({
     options: {
         chart: {
             background: 'whitesmoke',
@@ -39,18 +39,18 @@ export const barSettings = (data, isHorizontal) => ({
         dataLabels: {
             enabled: false
         },
-        title: {
-            text: 'Sales - 2016 Q1',
-            align: 'center',
-            margin: 20,
-            offset: 20, 
-            style: {
-                fontSize: '25px'
-            }
-        }
+        // title: {
+        //     text: 'Sales - 2016 Q1',
+        //     align: 'center',
+        //     margin: 20,
+        //     offset: 20, 
+        //     style: {
+        //         fontSize: '25px'
+        //     }
+        // }
     },
     series: [{
-        name: "product sold from this country",
+        name: seriesDescription,
         data: Object.values(data)
     }]
 });

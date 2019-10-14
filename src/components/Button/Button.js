@@ -1,14 +1,13 @@
 import React from 'react';
 
 import './Button.scss';
-
+ 
 const button = props => {
 
     return (
         <button 
-            className="btn" 
+            className={`btn ${props.active ? 'btn-active' : ""}`} 
             onClick={props.clicked} 
-            style={{background: props.active ? 'var(--color-primary-light)' : "" }}
         >
             {props.name}
         </button>

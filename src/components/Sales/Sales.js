@@ -35,12 +35,17 @@ class Sales extends Component {
         for (let item of salesData) {
             countObjectKeys(salesPerDay, item.sold.substring(0,5), 1);
         }
-        this.setState({salesPerDay, salesData})
+        return {salesPerDay, salesData};
     }
 
     buttonHandler = (num) => {
-        this.filter(num); 
-        this.setState({monthNum: num})
+        const {salesPerDay, salesData} = this.filter(num); 
+
+        this.setState({
+            salesPerDay, 
+            salesData,
+            monthNum: num
+        })
     }
 
     listenToScroll = () => {
@@ -55,13 +60,31 @@ class Sales extends Component {
 
     render() {
         const {salesData, salesPerDay} = this.state;
+        const prevState = this.filter("0" + (this.state.monthNum - 1));
+
+        const prevSalesData = prevState.salesData;
+        const prevSalesPerDay = prevState.salesPerDay;
+
+
+        console.log(String(this.state.monthNum - 1))
+        console.log(this.state)
+        console.log(prevState)
 
         const totalSales = salesData.length;
+        const prevTotalSales = prevSalesData.length;
+
         const totalRevenue = Object.values(salesData).reduce((acc, curValue) => (
             acc + Number(curValue.price)
         ), 0);
+        const prevTotalRevenue = Object.values(prevSalesData).reduce((acc, curValue) => (
+            acc + Number(curValue.price)
+        ), 0);
+
         const avgRevenue = (totalRevenue / Object.keys(salesPerDay).length).toFixed(0);
+        const prevAvgRevenue = (prevTotalRevenue / Object.keys(prevSalesPerDay).length).toFixed(0);
+
         const avgSales = (totalSales / Object.keys(salesPerDay).length).toFixed(0);    
+        const prevAvgSales = (prevTotalSales / Object.keys(prevSalesPerDay).length).toFixed(0);    
          
         return (
             <section className="sales">
@@ -73,10 +96,10 @@ class Sales extends Component {
                 </div>
 
                 <InfoBoxContainer>
-                    <InfoBox value={totalRevenue} title="total revenue" />
-                    <InfoBox value={totalSales} title="total products sold" />
-                    <InfoBox value={avgRevenue} title="average revenue per day" />
-                    <InfoBox value={avgSales} title="average products sold per day" />
+                    <InfoBox value={totalRevenue} prevValue={prevTotalRevenue} title="total revenue" />
+                    <InfoBox value={totalSales} prevValue={prevTotalSales} title="total products sold" />
+                    <InfoBox value={avgRevenue} prevValue={prevAvgRevenue} title="average revenue per day" />
+                    <InfoBox value={avgSales} prevValue={prevAvgSales} title="average products sold per day" />
                 </InfoBoxContainer>
 
                 <SalesLine 

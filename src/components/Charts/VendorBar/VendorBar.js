@@ -9,7 +9,7 @@ class VendorBar extends Component {
     state = {}
 
     static getDerivedStateFromProps(props) {
-        return { ...barSettings(props.data, true) }
+        return { ...barSettings(props.data, true, "Sold from this location") }
     }    
 
     render() {

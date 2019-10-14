@@ -18,6 +18,10 @@
 
     &__value {
         font-size: 30px;
+        color: var(--color-primary);
+    }
 
+    &__trend {
+        font-size: 18px;
     }
 }
