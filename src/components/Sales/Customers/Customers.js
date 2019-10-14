@@ -12,6 +12,8 @@ const customers = props => {
     const customersGender = {};
     const customersOS = {};
     const customersCampaign = {};
+    const customersCreationDates = {};
+    const customersCountNew = {};
 
     for (let item of props.salesData) {
         countObjectKeys(customersCount, item.customer_id, 1);
@@ -24,14 +26,37 @@ const customers = props => {
         if (customerFrequency === undefined) {
             customerFrequency = 0;
         }
+
         countObjectKeys(customersGender, item.gender, customerFrequency);
         countObjectKeys(customersOS, item.operation_system, customerFrequency);
         countObjectKeys(customersCampaign, item.campaign, customerFrequency);
+
+        if (item.agg_sales_performed 
+            && item.created_on.split(' ')[0].split('/')[2] === '2016') {
+                customersCreationDates[item.customer_id] = item.created_on.split(' ')[0].split('/');
+        }
     }
+
+    for (let id in customersCreationDates) {
+        countObjectKeys(customersCountNew, customersCreationDates[id][0], 1)
+    }
+
+    for (let key in customersCountNew) {
+        if (isNaN(customersCountNew[0])) {
+            customersCountNew[0] = 0;
+        }
+        customersCountNew[0] += customersCountNew[key];
+    }
+
+    const numOfCustomers = customersCountNew[props.monthNumber];
+    const prevNumOfCustomers = customersCountNew["0" + (Number(props.monthNumber) - 1)];
 
     return (
         <div className="customers">
-            <InfoBox value={5000} prevValue={2000} title="New Customers" />
+            <InfoBox 
+                value={numOfCustomers} 
+                prevValue={prevNumOfCustomers} 
+                title="New Customers" />
             <CustomersDonut
                 title="products sold by user's gender"
                 class="gender"

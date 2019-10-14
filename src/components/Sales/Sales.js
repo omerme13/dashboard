@@ -65,11 +65,6 @@ class Sales extends Component {
         const prevSalesData = prevState.salesData;
         const prevSalesPerDay = prevState.salesPerDay;
 
-
-        console.log(String(this.state.monthNum - 1))
-        console.log(this.state)
-        console.log(prevState)
-
         const totalSales = salesData.length;
         const prevTotalSales = prevSalesData.length;
 
@@ -119,6 +114,7 @@ class Sales extends Component {
                     <Customers 
                         salesData={salesData}
                         customersData={this.props.customers} 
+                        monthNumber={this.state.monthNum}
                     />
                 </div>
             </main>

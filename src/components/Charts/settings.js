@@ -3,6 +3,13 @@ const colorSet = ['#F66D44', '#FEAE65', '#AADEA7', '#64C2A6', '#2D87BB', '#7982B
 export const donutSettings = data => ({
     series: Object.values(data),
     options: {
+        plotOptions: {
+            pie: {
+                customScale: 0.9,
+                expandOnClick: false
+
+            }
+        },
         legend: {
             position: 'bottom',
             height: 100,
