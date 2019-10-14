@@ -4,9 +4,6 @@ import Chart from "react-apexcharts";
 
 import {donutSettings} from '../settings';
 
-import './ProductDonut.scss';
-
-
 class ProductDonut extends Component {
     state = {};
 
@@ -33,11 +30,10 @@ class ProductDonut extends Component {
         
         return (
             <div className="product-donut">
-                <h2 className="heading-2">products sold by categories</h2>
                 <Chart
                     options={this.state.options}
                     series={this.state.series}
-                    type="donut"
+                    type="pie"
                     height="450"
                     width="100%"
                 />

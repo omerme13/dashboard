@@ -2,8 +2,6 @@ import React, { Component } from "react";
 
 import Chart from "react-apexcharts";
 
-import './SalesLine.scss';
-
 class SalesLine extends Component {
     state = {
         options: {
@@ -18,14 +16,14 @@ class SalesLine extends Component {
             stroke: {
                 curve: "smooth"
             },
-            title: {
-                text: "2016 quarter / monthly sales",
-                align: "center",
-                style: {
-                    fontSize: 30,
-                    fontFamily: 'Lato'
-                }
-            },
+            // title: {
+            //     text: "2016 quarter / monthly sales",
+            //     align: "center",
+            //     style: {
+            //         fontSize: 30,
+            //         fontFamily: 'Lato'
+            //     }
+            // },
             grid: {
                 row: {
                     colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns

@@ -1,8 +1,13 @@
-const colorSet = ['#F66D44', '#FEAE65', '#AADEA7', '#64C2A6', '#2D87BB', '#7982B9', '#A5C1DC'];
+const colorSet = ['#F66D44', '#FEAE65', '#AADEA7', '#64C2A6', '#2D87BB', '#7982B9', '#A5C1DC', '#dedede'];
 
 export const donutSettings = data => ({
     series: Object.values(data),
     options: {
+        legend: {
+            position: 'bottom',
+            height: 100,
+            offsetY: 30
+        },
         colors: colorSet,
         labels: Object.keys(data),
         dataLabels: {
@@ -38,16 +43,7 @@ export const barSettings = (data, isHorizontal, seriesDescription) => ({
         },
         dataLabels: {
             enabled: false
-        },
-        // title: {
-        //     text: 'Sales - 2016 Q1',
-        //     align: 'center',
-        //     margin: 20,
-        //     offset: 20, 
-        //     style: {
-        //         fontSize: '25px'
-        //     }
-        // }
+        }
     },
     series: [{
         name: seriesDescription,

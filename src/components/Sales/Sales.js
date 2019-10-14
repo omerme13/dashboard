@@ -4,9 +4,9 @@ import SalesLine from '../Charts/SalesLine/SalesLine';
 import InfoBox from '../InfoBox/InfoBox';
 import InfoBoxContainer from '../InfoBox/InfoBoxContainer';
 import Button from '../Button/Button';
-import Product from './Product';
-import Vendor from './Vendor';
-import Customers from './Customers';
+import Product from './Product/Product';
+import Vendor from './Vendor/Vendor';
+import Customers from './Customers/Customers';
 import {countObjectKeys} from '../../shared';
 
 
@@ -52,9 +52,9 @@ class Sales extends Component {
         const buttonsPosition = this.inputElement.offsetTop;
 
         if (window.pageYOffset > buttonsPosition + 80) {
-            this.inputElement.classList.add("sales__btn-container-fixed");
+            this.inputElement.classList.add("btn-container-fixed");
         } else /*if (window.pageYOffset < buttonsPosition - 100)*/{
-            this.inputElement.classList.remove("sales__btn-container-fixed");
+            this.inputElement.classList.remove("btn-container-fixed");
         }
     }
 
@@ -87,12 +87,13 @@ class Sales extends Component {
         const prevAvgSales = (prevTotalSales / Object.keys(prevSalesPerDay).length).toFixed(0);    
          
         return (
-            <section className="sales">
-                <div className="sales__btn-container" ref={inputEl => this.inputElement = inputEl}>
+            <main className="sales">
+                <div className="btn-container" ref={inputEl => this.inputElement = inputEl}>
                     <Button name="Jan" clicked={() => this.buttonHandler("01")} active={this.state.monthNum === "01"} />
                     <Button name="Feb" clicked={() => this.buttonHandler("02")} active={this.state.monthNum === "02"} />
                     <Button name="Mar" clicked={() => this.buttonHandler("03")} active={this.state.monthNum === "03"} />
                     <Button name="Quarter" clicked={() => {this.buttonHandler(0)}} active={!this.state.monthNum} />
+                    <span className="btn-container__text">Sales - 2016</span>
                 </div>
 
                 <InfoBoxContainer>
@@ -101,25 +102,26 @@ class Sales extends Component {
                     <InfoBox value={avgRevenue} prevValue={prevAvgRevenue} title="average revenue per day" />
                     <InfoBox value={avgSales} prevValue={prevAvgSales} title="average products sold per day" />
                 </InfoBoxContainer>
-
+                <h2 className="heading-2">products sold by day</h2>
                 <SalesLine 
                     data={this.state.salesPerDay} 
                     monthNumber={this.state.monthNum}
                 />
-
-                <Product 
-                    salesData={salesData} 
-                    productData={this.props.product} 
-                />
-                <Vendor 
-                    salesData={salesData}
-                    vendorData={this.props.vendor} 
-                />
-                <Customers 
-                    salesData={salesData}
-                    customersData={this.props.customers} 
-                />
-            </section>
+                <div className="sales__graphs">
+                    <Product 
+                        salesData={salesData} 
+                        productData={this.props.product} 
+                    />
+                    <Vendor 
+                        salesData={salesData}
+                        vendorData={this.props.vendor} 
+                    />
+                    <Customers 
+                        salesData={salesData}
+                        customersData={this.props.customers} 
+                    />
+                </div>
+            </main>
         );
     }
 }

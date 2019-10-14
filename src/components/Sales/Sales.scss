@@ -1,19 +1,49 @@
+@import '../../breakPoints.scss';
+
 .sales {
-    &__btn-container {
+    background: whitesmoke;
+    padding: 4rem;
+
+    .btn-container {
         border-bottom: 1px solid lightgrey;
-        padding-bottom: 20px;
+        padding-bottom: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
 
         &-fixed {
             border-bottom: none;
             position: fixed;
-            padding: 20px 100px;
+            padding: 2rem 10rem;
             top: 0;
             left: 0;
             width: 100%;
             background-color: whitesmoke;
-            box-shadow: 0 10px 20px rgba(black, 0.2);
+            box-shadow: 0 1rem 2rem rgba(black, 0.2);
             transition: 0.5s;
             z-index: 100;
+
+            @media only screen and (max-width: $bp-s) {
+                padding: 2rem;
+            }
+        }
+
+        &__text {
+            font-size: 2rem;
+            margin-left: auto;
+        }
+    }
+    
+    &__graphs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(20rem, 1fr));
+        grid-template-rows: 1fr;
+        grid-gap: 2.5rem;
+
+
+        @media only screen and (max-width: $bp-l) {
+            display: flex;
+            flex-direction: column;
         }
     }
 }

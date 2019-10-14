@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import Chart from 'react-apexcharts';
+import React, { Component } from "react";
+import Chart from "react-apexcharts";
 
-import {barSettings} from '../settings';
+import { barSettings } from "../settings";
 
 class ProductBar extends Component {
-    state = {}
+    state = {};
 
     static getDerivedStateFromProps(props) {
-        return { ...barSettings(props.data, false, "Sold from this category") }
-    }    
+        return { ...barSettings(props.data, false, "Sold from this category") };
+    }
 
     render() {
         return (
             <div className="bar-apex">
-                <Chart 
+                <Chart
                     options={this.state.options}
                     series={this.state.series}
                     type="bar"

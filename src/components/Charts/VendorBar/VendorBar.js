@@ -9,12 +9,17 @@ class VendorBar extends Component {
     state = {}
 
     static getDerivedStateFromProps(props) {
-        return { ...barSettings(props.data, true, "Sold from this location") }
+        return {...barSettings(
+                props.data, 
+                true, 
+                "Sold from this location",
+                "Vendor's Location"
+            )}
     }    
 
     render() {
         return (
-            <div className="bar-apex">
+            <div className="vendor__bar">
                 <Chart 
                     options={this.state.options}
                     series={this.state.series}

@@ -1,7 +1,9 @@
 import React from 'react';
 
-import Bar from '../Charts/VendorBar/VendorBar';
-import {countObjectKeys} from '../../shared';
+import Bar from '../../Charts/VendorBar/VendorBar';
+
+import {countObjectKeys} from '../../../shared';
+import './Vendor.scss';
 
 const vendor = props => {
     const vendorLocation = {};
@@ -21,9 +23,10 @@ const vendor = props => {
     }
 
     return (
-        <>
+        <div className="vendor">
+                <h2 className="heading-2">origin of the products sold</h2>
             {bar}
-        </>
+        </div>
     );
 }
 

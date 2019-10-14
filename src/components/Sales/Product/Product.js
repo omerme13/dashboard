@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 
-import ProductDonut from '../Charts/ProductCharts/ProductDonut';
-import ProductBar from  '../Charts/ProductCharts/ProductBar';
-import Button from '../Button/Button';
+import ProductDonut from '../../Charts/ProductCharts/ProductDonut';
+import ProductBar from  '../../Charts/ProductCharts/ProductBar';
+import Button from '../../Button/Button';
 
-import {countObjectKeys} from '../../shared';
+import {countObjectKeys} from '../../../shared';
+
+import './Product.scss';
 
 class Product extends Component {
 
     state = {
-        isDonut: true
+        isDonut: false
     }
 
     changeChartHandler = () => this.setState({isDonut: !this.state.isDonut});
@@ -51,9 +53,10 @@ class Product extends Component {
         return (
             <div className="product">
                 <Button 
-                    name={`Change to ${this.state.isDonut ? "bar" : "donut"}`} 
+                    name={`Change to ${this.state.isDonut ? "bar" : "pie"}`} 
                     clicked={this.changeChartHandler} 
                 />
+                <h2 className="heading-2">products sold by categories</h2>
                 {
                     this.state.isDonut
                     ? <ProductDonut categoryCount={categoryCount} total={total} />
