@@ -71,6 +71,10 @@ text {
     &-text {
         font-size: 1.8rem !important;
         font-family: var(--font-main) !important;
+
+        @media only screen and (max-width: $bp-s) {
+            font-size: 1.2rem !important;
+        }
     }
 
     &-marker {            
@@ -78,13 +82,12 @@ text {
         height: 1.5rem !important;
         margin-right: 1rem !important;
         transform: translateY(0.2rem);
+
+        @media only screen and (max-width: $bp-s) {
+            width: 0.7rem !important;
+            height: 0.7rem !important;
+            transform: translateY(-0.1rem);
+
+        }
     }
 }
-
-g, circle, foreignObject, .apexcharts-canvas {
-    overflow: visible !important;
-}
-
-
-
-

@@ -34,7 +34,6 @@ class ProductDonut extends Component {
                     options={this.state.options}
                     series={this.state.series}
                     type="pie"
-                    height="450"
                     width="100%"
                 />
             </div>

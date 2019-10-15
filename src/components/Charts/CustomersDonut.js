@@ -9,7 +9,7 @@ class CustomersDonut extends Component {
 
     static getDerivedStateFromProps(props) {
         const data = props.customersData;
-        if (props.customersData.male) { // if the data is customers gender 
+        if (props.customersData.male) { // if the data is customer's gender 
             delete data.other; // "other" is always very small amount, hence negligible          
             data.unknown = data[0]; // renaming the "0" key to "unknown"
             delete data[0];
@@ -25,7 +25,6 @@ class CustomersDonut extends Component {
                     options={this.state.options}
                     series={this.state.series}
                     type="donut"
-                    height="450"
                     width="100%"
                 />
             </div>

@@ -6,13 +6,12 @@ export const donutSettings = data => ({
         plotOptions: {
             pie: {
                 customScale: 0.9,
-                expandOnClick: false
-
+                // expandOnClick: false
             }
         },
         legend: {
             position: 'bottom',
-            height: 100,
+            height: 35,
             offsetY: 30
         },
         colors: colorSet,
