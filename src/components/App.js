@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import Sales from './Sales/Sales';
+import Spinner from './Spinner/Spinner'
 
 import './App.scss';
 
@@ -37,7 +38,7 @@ class App extends Component {
     }
 
     render() {
-        let sales = null;
+        let sales = <Spinner />;
 
         if (this.state.customers) {
             sales = (
